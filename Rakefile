@@ -10,6 +10,10 @@ namespace :db do
   end
 
   task :migrate do
-    DB = Sequel.connect('postgres://localhost/')
+    DB.migrate
+  end
+
+  task :reset do
+    DB.reset!
   end
 end
