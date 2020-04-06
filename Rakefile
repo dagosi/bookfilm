@@ -1,17 +1,15 @@
-require 'yaml'
-require 'sequel'
+lib = File.expand_path("../lib", __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require 'bookfilm'
 
 namespace :db do
+  desc "Create a new DB, and drops the previous one if it exists"
   task :create do
-    db_config = YAML.load(File.open('db/config.yml'))
-    db_name = db_config['default']['database']
-    connect_params = db_config['default'].merge('database' => 'postgres')
+    DB.create!
+  end
 
-    Sequel.connect(connect_params) do |db|
-      db.execute "DROP DATABASE IF EXISTS #{db_name}"
-      db.execute "CREATE DATABASE #{db_name}"
-
-      puts "DB #{db_name} created!"
-    end
+  task :migrate do
+    DB = Sequel.connect('postgres://localhost/')
   end
 end
