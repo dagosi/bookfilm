@@ -9,7 +9,7 @@ module DB
       end
 
       def config
-        @config ||= YAML.load(File.open('db/config.yml'))['default']
+        @config ||= YAML.load(File.open('lib/db/config.yml'))['default']
       end
 
       def connection
@@ -37,7 +37,7 @@ module DB
         String :name
         String :description
         String :image_url
-        Array :rolling_days
+        String :rolling_days
       end
 
       puts "Creating bookings table"
