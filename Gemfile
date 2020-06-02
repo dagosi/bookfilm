@@ -15,6 +15,7 @@ group :development do
 end
 
 group :test do
+  gem 'database_cleaner-sequel'
   gem 'rspec'
   gem 'rspec-grape'
 end

@@ -4,6 +4,9 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'pry'
 require 'bookfilm'
 require 'rack/test'
+require 'database_cleaner'
+
+Dir[File.expand_path("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
