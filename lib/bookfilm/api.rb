@@ -17,10 +17,15 @@ module Bookfilm
 
         params do
           requires :film, type: Hash do
-            requires :name, type: String
-            requires :description, type: String
-            requires :image_url, type: String
-            requires :rolling_days, type: Array[String]
+            requires :name, type: String, allow_blank: { value: false }
+            requires :description, type: String, allow_blank: { value: false }
+            requires :image_url, type: String, allow_blank: { value: false }
+            requires :rolling_days,
+              type: Array[String],
+              values: {
+                value: ->(day) { Date::DAYNAMES.include?(day.capitalize) },
+                message: 'has an invalid day'
+              }
           end
         end
         post do

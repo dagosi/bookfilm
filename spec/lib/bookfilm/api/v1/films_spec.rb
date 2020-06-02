@@ -14,7 +14,6 @@ describe 'Films endpoint' do
         }
 
         post '/api/v1/films', params
-        expect(last_response.status).to eq(201)
 
         params = params[:film]
         expect(JSON.parse(last_response.body))
@@ -25,6 +24,7 @@ describe 'Films endpoint' do
               image_url: params[:image_url],
               rolling_days: "(monday,saturday)"
             }.stringify_keys)
+        expect(last_response.status).to eq(201)
       end
     end
 
@@ -32,9 +32,9 @@ describe 'Films endpoint' do
       it 'returns a 400 status with message' do
         params = {
           film: {
-            name: nil,
-            description: nil,
-            image_url: nil
+            name: 'The Terminator',
+            description: 'The Terminator is a 1984 American science fiction film directed by James Cameron. It stars Arnold Schwarzenegger as the Terminator, a cyborg assassin sent back in time from 2029 to 1984 to kill Sarah Connor (Linda Hamilton), whose son will one day become a savior against machines in a post-apocalyptic future. Michael Biehn plays Kyle Reese, a reverent soldier sent back in time to protect Sarah',
+            image_url: 'https://en.wikipedia.org/wiki/The_Terminator#/media/File:Terminator1984movieposter.jpg',
           }
         }
 
@@ -46,7 +46,7 @@ describe 'Films endpoint' do
     end
 
     context 'when there is an invalid param' do
-      it 'returns a 422 status with message' do
+      it 'returns a 400 status with message' do
         params = {
           film: {
             name: nil,
@@ -58,8 +58,26 @@ describe 'Films endpoint' do
 
         post '/api/v1/films', params
 
-        expect(last_response.status).to eq(422)
-        expect(JSON.parse(last_response.body)).to eq({ "errors" => ['name is blank'] })
+        expect(last_response.status).to eq(400)
+        expect(JSON.parse(last_response.body)).to eq({ "error" => "film[name] is empty" })
+      end
+
+      context 'when there is a wrong rolling day' do
+        it 'returns a 400 with a message' do
+          params = {
+            film: {
+              name: 'The Terminator',
+              description: 'The Terminator is a 1984 American science fiction film directed by James Cameron. It stars Arnold Schwarzenegger as the Terminator, a cyborg assassin sent back in time from 2029 to 1984 to kill Sarah Connor (Linda Hamilton), whose son will one day become a savior against machines in a post-apocalyptic future. Michael Biehn plays Kyle Reese, a reverent soldier sent back in time to protect Sarah',
+              image_url: 'https://en.wikipedia.org/wiki/The_Terminator#/media/File:Terminator1984movieposter.jpg',
+              rolling_days: ['mondayday', 'sunday', 'friday']
+            }
+          }
+
+          post '/api/v1/films', params
+
+          expect(last_response.status).to eq(400)
+          expect(JSON.parse(last_response.body)).to eq({ "error" => "film[rolling_days] has an invalid day" })
+        end
       end
     end
   end

@@ -15,15 +15,7 @@ module Bookfilm
     private
 
     def validate(params)
-      VALIDATION[:required].each do |field|
-        ERRORS << "#{field} is blank" if params.fetch(field).nil? || params.fetch(field).empty?
-      end
-
-      if ERRORS.empty?
-        Success(params)
-      else
-        Failure(ERRORS)
-      end
+      Success(params)
     end
 
     def create(params)
