@@ -8,6 +8,7 @@ GEM
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2)
     builder (3.2.4)
+    byebug (11.1.3)
     coderay (1.1.2)
     concurrent-ruby (1.1.6)
     daemons (1.3.1)
@@ -22,11 +23,26 @@ GEM
     dry-core (0.4.9)
       concurrent-ruby (~> 1.0)
     dry-equalizer (0.3.0)
+    dry-events (0.2.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.4)
+      dry-equalizer (~> 0.2)
     dry-inflector (0.2.0)
     dry-logic (1.0.6)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.2)
       dry-equalizer (~> 0.2)
+    dry-matcher (0.8.3)
+      dry-core (>= 0.4.8)
+    dry-monads (1.3.5)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.4, >= 0.4.4)
+      dry-equalizer
+    dry-transaction (0.13.0)
+      dry-container (>= 0.2.8)
+      dry-events (>= 0.1.0)
+      dry-matcher (>= 0.7.0)
+      dry-monads (>= 0.4.0)
     dry-types (1.4.0)
       concurrent-ruby (~> 1.0)
       dry-container (~> 0.3)
@@ -54,9 +70,14 @@ GEM
     pry (0.13.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    pry-byebug (3.9.0)
+      byebug (~> 11.0)
+      pry (~> 0.13.0)
     rack (2.2.2)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-test (0.8.3)
+      rack (>= 1.0, < 3)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -66,6 +87,9 @@ GEM
     rspec-expectations (3.9.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
+    rspec-grape (0.0.4)
+      rack-test (~> 0.6)
+      rspec-core (~> 3.0)
     rspec-mocks (3.9.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
@@ -85,11 +109,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dry-transaction
   grape
   pg
   pry
+  pry-byebug
   rack
   rspec
+  rspec-grape
   sequel
   thin
 
