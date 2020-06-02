@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Bookfilm::Film do
+describe Film do
   describe '::create' do
     it 'creates a new film' do
       params = {
@@ -11,6 +11,7 @@ describe Bookfilm::Film do
       }
 
       expect(DB::Connection).to receive_message_chain(:connection, :[], :insert).with(params)
+      binding.pry
       described_class.create(params)
     end
   end

@@ -3,6 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'pry'
 require 'bookfilm'
+require 'rack/test'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -88,4 +89,10 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+
+  config.include Rack::Test::Methods
+
+  def app
+    Bookfilm::API
+  end
 end
