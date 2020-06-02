@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Films endpoint' do
   describe 'POST /film' do
     context 'when the params are valid' do
-      it 'returns a 201 status' do
+      it 'returns a 201 status with message' do
         params = {
           film: {
             name: 'The Terminator',
@@ -15,6 +15,16 @@ describe 'Films endpoint' do
 
         post '/api/v1/films', params
         expect(last_response.status).to eq(201)
+
+        params = params[:film]
+        expect(JSON.parse(last_response.body))
+          .to include({
+              id: 1,
+              name: params[:name],
+              description: params[:description],
+              image_url: params[:image_url],
+              rolling_days: "(monday,saturday)"
+            }.stringify_keys)
       end
     end
 
@@ -34,7 +44,7 @@ describe 'Films endpoint' do
     end
 
     context 'when there is an invalid param' do
-      it 'returns a 422 status' do
+      it 'returns a 422 status with message' do
         params = {
           film: {
             name: nil,
@@ -45,7 +55,9 @@ describe 'Films endpoint' do
         }
 
         post '/api/v1/films', params
+
         expect(last_response.status).to eq(422)
+        expect(JSON.parse(last_response.body)).to eq({ "errors" => ['name is blank'] })
       end
     end
   end

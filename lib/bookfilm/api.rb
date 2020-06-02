@@ -24,7 +24,13 @@ module Bookfilm
           end
         end
         post do
-          Film.create declared(params)
+          film_creation = CreateFilm.new.call(params[:film])
+
+          if film_creation.success?
+            film_creation.success
+          else
+            error!({ errors: film_creation.failure }, 422)
+          end
         end
       end
 

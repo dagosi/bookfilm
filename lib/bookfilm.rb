@@ -6,3 +6,4 @@ DB_CONNECTION = DB::Connection.connection
 require 'bookfilm/api'
 require 'bookfilm/models/film'
 require 'bookfilm/services/create_booking'
+require 'bookfilm/services/create_film'
