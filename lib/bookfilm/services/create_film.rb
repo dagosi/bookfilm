@@ -10,7 +10,7 @@ module Bookfilm
 
     def create(params)
       film = Film.create(params)
-      Success(film)
+      Success(film.values)
     end
   end
 end

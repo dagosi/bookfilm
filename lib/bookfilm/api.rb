@@ -9,10 +9,15 @@ module Bookfilm
     namespace :v1 do
       resource :films do
         params do
-          optional :day, type: String
+          requires :day,
+            type: String,
+            values: {
+              value: ->(day) { Date::DAYNAMES.include?(day&.capitalize) },
+              message: 'is not valid'
+            }
         end
         get do
-          Film.index declared(params)
+          Film.search_by_day declared(params)
         end
 
         params do
@@ -23,7 +28,7 @@ module Bookfilm
             requires :rolling_days,
               type: Array[String],
               values: {
-                value: ->(day) { Date::DAYNAMES.include?(day.capitalize) },
+                value: ->(day) { Date::DAYNAMES.include?(day&.capitalize) },
                 message: 'has an invalid day'
               }
           end

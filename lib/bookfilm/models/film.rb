@@ -1,21 +1,14 @@
 class Film < Sequel::Model
   class << self
-    def index(params)
-      by_day = params[:day]
-
-      films =
-        if by_day.present?
-          Film.where(Sequel.like(:rolling_days, "%#{by_day}%"))
-        else
-          Film.select
-        end
+    def search_by_day(params)
+      week_day = params[:day]
+      films = Film.where(Sequel.ilike(:rolling_days, "%#{week_day}%"))
 
       films.map(&:values)
     end
+  end
 
-    def create(params)
-      film_id = insert(params)
-      where(id: film_id).first.values
-    end
+  def stringify_keys
+    values.stringify_keys
   end
 end
