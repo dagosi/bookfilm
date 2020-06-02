@@ -14,7 +14,7 @@ class Film < Sequel::Model
     end
 
     def create(params)
-      film_id = insert(params[:film])
+      film_id = insert(params)
       where(id: film_id).first.values
     end
   end
