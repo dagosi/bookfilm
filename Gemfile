@@ -16,6 +16,8 @@ end
 
 group :test do
   gem 'database_cleaner-sequel'
+  gem 'factory_bot'
+  gem 'faker'
   gem 'rspec'
   gem 'rspec-grape'
 end

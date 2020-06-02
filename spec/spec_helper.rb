@@ -5,6 +5,8 @@ require 'pry'
 require 'bookfilm'
 require 'rack/test'
 require 'database_cleaner'
+require 'factory_bot'
+require 'faker'
 
 Dir[File.expand_path("spec/support/**/*.rb")].each {|f| require f}
 
