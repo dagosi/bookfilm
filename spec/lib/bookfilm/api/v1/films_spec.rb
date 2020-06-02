@@ -29,7 +29,7 @@ describe 'Films endpoint' do
     end
 
     context 'when there is a missing param' do
-      it 'returns a 400 status' do
+      it 'returns a 400 status with message' do
         params = {
           film: {
             name: nil,
@@ -39,7 +39,9 @@ describe 'Films endpoint' do
         }
 
         post '/api/v1/films', params
+
         expect(last_response.status).to eq(400)
+        expect(JSON.parse(last_response.body)).to eq({ "error" => 'film[rolling_days] is missing'})
       end
     end
 
