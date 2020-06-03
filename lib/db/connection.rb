@@ -16,7 +16,7 @@ module DB
         @connection ||= begin
           Sequel.extension :pg_array_ops
 
-          connection = Sequel.connect(config)
+          connection = Sequel.connect(config[:url])
           connection.extension :pg_array
           connection
         end
@@ -26,7 +26,7 @@ module DB
 
   class << self
     def create!
-      db_name = Connection.config['database']
+      db_name = Connection.config[:database]
 
       Connection.connection do |db|
         db.execute "DROP DATABASE IF EXISTS #{db_name}"

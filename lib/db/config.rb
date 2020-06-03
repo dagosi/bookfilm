@@ -7,6 +7,7 @@ module DB
         default: {
           adapter: 'postgres',
           url: ENV['DATABASE_URL'],
+          # url: 'postgres://localhost/bookfilm',
           encoding: 'unicode',
           database: 'bookfilm',
         }
