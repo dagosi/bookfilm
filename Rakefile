@@ -2,7 +2,8 @@ lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'pry'
-require 'bookfilm'
+require 'db/connection'
+DB_CONNECTION = DB::Connection.connection
 
 namespace :db do
   desc "Create a new DB, and drops the previous one if it exists"
