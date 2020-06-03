@@ -48,8 +48,8 @@ module Bookfilm
       resource :bookings do
         params do
           requires :booking, type: Hash do
-            requires :date, type: Date
-            requires :film_id, type: Integer
+            requires :date, type: Date, allow_blank: { value: false }
+            requires :film_id, type: Integer, allow_blank: { value: false }, values: {}
           end
         end
         post do

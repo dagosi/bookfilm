@@ -78,7 +78,7 @@ describe 'Films endpoint' do
         back_to_the_future = FactoryBot.create(:film, :back_to_the_future, rolling_days: ['tuesday'])
         star_wars = FactoryBot.create(:film, :star_wars, rolling_days: ['saturday'])
 
-        get 'api/v1/films', day: 'tuesday'
+        get 'api/v1/films', day: 'tueSday'
 
         expect(last_response.status).to eq(200)
         expect(JSON.parse(last_response.body))

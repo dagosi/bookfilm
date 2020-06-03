@@ -5,7 +5,7 @@ class Film < AppModel
 
   dataset_module do
     def by_day(day)
-      day = day.underscore
+      day.downcase!
       where(Sequel.pg_array_op(:rolling_days).contains("{#{day}}"))
     end
   end

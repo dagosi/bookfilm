@@ -13,6 +13,8 @@ module Bookfilm
 
     def validate(params)
       booking = Booking.new(params)
+      return Failure(booking.errors) unless booking.valid?
+
       film = booking.film
 
       if film.seats_available?(booking.date)
@@ -23,12 +25,8 @@ module Bookfilm
     end
 
     def create(booking)
-      if booking.valid?
-        booking.save
-        Success(booking.values)
-      else
-        Failure(booking.errors)
-      end
+      booking.save
+      Success(booking.values)
     end
   end
 end
