@@ -11,7 +11,6 @@ gem 'sequel'
 gem 'thin'
 
 group :development do
-  gem 'dotenv'
   gem 'pry-byebug'
 end
 
