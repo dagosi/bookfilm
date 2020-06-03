@@ -9,5 +9,6 @@ require 'bookfilm/models/app_model'
 require 'bookfilm/models/film'
 require 'bookfilm/models/booking'
 
-require 'bookfilm/services/create_booking'
 require 'bookfilm/services/create_film'
+require 'bookfilm/services/create_booking'
+require 'bookfilm/services/list_bookings'

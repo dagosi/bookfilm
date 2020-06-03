@@ -40,7 +40,7 @@ module Bookfilm
           if film_creation.success?
             film_creation.success
           else
-            error!({ errors: film_creation.failure }, 400)
+            error!({ error: film_creation.failure }, 400)
           end
         end
       end
@@ -58,7 +58,21 @@ module Bookfilm
           if booking_creation.success?
             booking_creation.success
           else
-            error!({ errors: booking_creation.failure }, 422)
+            error!({ error: booking_creation.failure }, 422)
+          end
+        end
+
+        params do
+          requires :start_date, type: Date, allow_blank: { value: false }
+          requires :end_date, type: Date, allow_blank: { value: false }
+        end
+        get do
+          list_bookings = ListBookings.new.call(params)
+
+          if list_bookings.success?
+            list_bookings.success
+          else
+            error!({ error: list_bookings.failure }, 422)
           end
         end
       end
