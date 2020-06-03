@@ -1,5 +1,5 @@
 require 'sequel'
-require 'yaml'
+require 'db/config'
 
 module DB
   class Connection
@@ -9,7 +9,7 @@ module DB
       end
 
       def config
-        @config ||= YAML.load(File.open('lib/db/config.yml'))['default']
+        @config ||= DB::Config.new.config[:default]
       end
 
       def connection

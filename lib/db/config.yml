@@ -1,5 +1,0 @@
-default:
-  adapter: postgres
-  url: ENV['DATABASE_URL']
-  encoding: unicode
-  database: bookfilm
