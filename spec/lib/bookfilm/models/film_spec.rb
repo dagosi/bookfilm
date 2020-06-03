@@ -1,16 +1,34 @@
 require 'spec_helper'
 
 describe Film do
-  describe '::create' do
-    xit 'creates a new film' do
-      params = {
-        name: 'The Terminator',
-        description: 'The Terminator is a 1984 American science fiction film directed by James Cameron. It stars Arnold Schwarzenegger as the Terminator, a cyborg assassin sent back in time from 2029 to 1984 to kill Sarah Connor (Linda Hamilton), whose son will one day become a savior against machines in a post-apocalyptic future. Michael Biehn plays Kyle Reese, a reverent soldier sent back in time to protect Sarah',
-        image_url: 'https://en.wikipedia.org/wiki/The_Terminator#/media/File:Terminator1984movieposter.jpg',
-        rolling_days: ['monday', 'saturday']
-      }
+  describe '#plays_on?' do
+    context 'when it plays on that date' do
+      context 'when there is only one rolling day' do
+        subject do
+          described_class
+            .new(rolling_days: ['monday'])
+            .plays_on?('2020-10-05')
+        end
+        it { is_expected.to be_truthy }
+      end
 
-      described_class.create(params)
+      context 'when there are multiple rolling days' do
+        subject do
+          described_class
+            .new(rolling_days: ['monday', 'saturday', 'sunday'])
+            .plays_on?('2020-10-04')
+        end
+        it { is_expected.to be_truthy }
+      end
+    end
+
+    context 'when it does not play on that date' do
+      subject do
+        described_class
+          .new(rolling_days: ['monday', 'saturday', 'sunday'])
+          .plays_on?('2020-10-07') # Happy humpday!
+      end
+      it { is_expected.to be_falsey }
     end
   end
 end
