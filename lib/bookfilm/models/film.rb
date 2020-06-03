@@ -10,19 +10,15 @@ class Film < AppModel
     end
   end
 
-  class << self
-    def search_by_day(params)
-      by_day(params[:day]).map(&:values)
-    end
-  end
-
   def seats_available?(date)
     occupancy_on(date) < BOOKING_CAP
   end
 
-  def plays_on?(str_date)
+  def plays_on?(date)
     rolling_wdays = rolling_days.map { |rolling_day| Date.parse(rolling_day).wday }
-    rolling_wdays.include? Date.parse(str_date).wday
+
+    date = date.is_a?(String) ? Date.parse(date).wday : date.wday
+    rolling_wdays.include? date
   end
 
   private

@@ -10,7 +10,7 @@ module Bookfilm
     private
 
     def sanitize(params)
-      params[:day].downcase!
+      params[:rolling_days].map(&:downcase!)
 
       Success(params)
     end

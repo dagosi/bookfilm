@@ -20,11 +20,10 @@ describe 'Films endpoint' do
         params = film_params[:film]
         expect(JSON.parse(last_response.body))
           .to include({
-              id: 1,
               name: params[:name],
               description: params[:description],
               image_url: params[:image_url],
-              rolling_days: "(monday,saturday)"
+              rolling_days: params[:rolling_days]
             }.stringify_keys)
         expect(last_response.status).to eq(201)
       end
@@ -74,8 +73,8 @@ describe 'Films endpoint' do
     end
 
     context 'when there is a week day' do
-      it 'returns a list of movies rolling on that day' do
-        harry_potter = FactoryBot.create(:film, :harry_potter, rolling_days: ['Tuesday', 'Monday'])
+      it 'returns a list of movies playing that day' do
+        harry_potter = FactoryBot.create(:film, :harry_potter, rolling_days: ['tuesday', 'monday'])
         back_to_the_future = FactoryBot.create(:film, :back_to_the_future, rolling_days: ['tuesday'])
         star_wars = FactoryBot.create(:film, :star_wars, rolling_days: ['saturday'])
 

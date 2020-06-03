@@ -23,8 +23,12 @@ module Bookfilm
     end
 
     def create(booking)
-      booking.save
-      Success(booking.values)
+      if booking.valid?
+        booking.save
+        Success(booking.values)
+      else
+        Failure(booking.errors)
+      end
     end
   end
 end

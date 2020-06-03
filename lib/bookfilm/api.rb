@@ -17,7 +17,8 @@ module Bookfilm
             }
         end
         get do
-          Film.search_by_day declared(params)
+          week_day = declared(params)[:day]
+          Film.by_day(week_day).map(&:values)
         end
 
         params do

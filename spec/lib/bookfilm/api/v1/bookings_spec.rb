@@ -64,7 +64,7 @@ describe 'Bookings endpoint' do
 
     context 'when the film rolling week day does not align with the date' do
       it 'returns a 422 with a proper message' do
-        star_wars = FactoryBot.create(:film, :star_wars, rolling_days: ['saturday', 'monday'])
+        star_wars = FactoryBot.create(:film, :star_wars, rolling_days: ['saturday', 'wednesday'])
 
         booking_params = {
           booking: {
@@ -75,7 +75,12 @@ describe 'Bookings endpoint' do
 
         post '/api/v1/bookings', booking_params
 
-        expect(JSON.parse(last_response.body)).to eq("film does not play on 2020-10-05")
+        expect(JSON.parse(last_response.body))
+          .to eq({
+            "errors" => {
+              "film_id" => ["film does not play on 2020-10-05"]
+            }
+          })
         expect(last_response.status).to eq(422)
       end
     end
