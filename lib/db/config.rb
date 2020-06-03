@@ -6,8 +6,7 @@ module DB
       @config = {
         default: {
           adapter: 'postgres',
-          url: ENV['DATABASE_URL'],
-          # url: 'postgres://localhost/bookfilm',
+          url: ENV.fetch('DATABASE_URL', 'postgres://localhost/bookfilm'),
           encoding: 'unicode',
           database: 'bookfilm',
         }
