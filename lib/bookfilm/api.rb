@@ -39,7 +39,7 @@ module Bookfilm
           if film_creation.success?
             film_creation.success
           else
-            error!({ errors: film_creation.failure }, 422)
+            error!({ errors: film_creation.failure }, 400)
           end
         end
       end
@@ -52,7 +52,13 @@ module Bookfilm
           end
         end
         post do
-          Booking.create declared(params)
+          booking_creation = CreateBooking.new.call(params[:booking])
+
+          if booking_creation.success?
+            booking_creation.success
+          else
+            error!({ errors: booking_creation.failure }, 422)
+          end
         end
       end
     end

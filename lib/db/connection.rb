@@ -13,7 +13,13 @@ module DB
       end
 
       def connection
-        @connection ||= Sequel.connect(config)
+        @connection ||= begin
+          Sequel.extension :pg_array_ops
+
+          connection = Sequel.connect(config)
+          connection.extension :pg_array
+          connection
+        end
       end
     end
   end
@@ -37,7 +43,7 @@ module DB
         String :name
         String :description
         String :image_url
-        String :rolling_days
+        column :rolling_days, 'varchar[]', default: []
       end
 
       puts "Creating bookings table"
@@ -49,8 +55,10 @@ module DB
     end
 
     def reset!
-      Connection.connection.drop_table(:films)
-      Connection.connection.drop_table(:bookings)
+      Connection.connection.tables.each do |table|
+        Connection.connection.drop_table(table)
+      end
+
       migrate
     end
   end

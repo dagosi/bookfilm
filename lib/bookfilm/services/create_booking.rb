@@ -1,39 +1,30 @@
-class CreateBooking
-  BOOKING_CAP = 10
+require 'dry/transaction'
 
-  def initialize(params)
-    @params = params
-    @film_id = params[:booking][:fiml_id]
-    @errors = []
-  end
+module Bookfilm
+  class CreateBooking
+    include Dry::Transaction
 
-  def call(params)
-    validate
-    return false unless valid?
+    BOOKING_CAP = 10
 
-    insert(params[:booking])
-    film
-  end
+    step :validate
+    step :create
 
-  private
+    private
 
-  def valid?
-    @errors.empty
-  end
+    def validate(params)
+      booking = Booking.new(params)
+      film = booking.film
 
-  def validate
-    @errors << "There aren't more seats for #{film_name}" unless can_create_booking_for_film?(film_id)
-  end
+      if film.seats_available?(booking.date)
+        Success(booking)
+      else
+        Failure('The theater is full!')
+      end
+    end
 
-  def film
-    @film ||= Film.find(@film_id)
-  end
-
-  def film_name
-    film.name
-  end
-
-  def can_create_booking_for_film?(film_id)
-    Booking.where(film_id: film_id).count <= BOOKING_CAP
+    def create(booking)
+      booking.save
+      Success(booking.values)
+    end
   end
 end
